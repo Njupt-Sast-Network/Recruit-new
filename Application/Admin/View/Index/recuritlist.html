@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>南京邮电大学招新系统|后台管理|报名信息列表</title>
+    <link rel="stylesheet" href="__ROOT__/Public/css/bootstrap.min.css">
+    <script src="__ROOT__/Public/js/jquery-1.11.2.min.js"></script>
+    <script src="__ROOT__/Public/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="__ROOT__/Public/css/comcss.css">
+    <style>
+    a:visited button{background-color: #6BA2D2;}
+    </style>
+</head>
+
+<body style="background-color: antiquewhite;">
+    <table class="table table-hover table-bordered " style="margin-top:20px;">
+        <thead>
+            <tr>
+                <th style="width:15%">学号</th>
+                <th>姓名</th>
+                <th>第一志愿</th>
+                <th>第二志愿</th>
+                <th>录取状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="recruit" id="va">
+                <tr recruitid="{$va.id}">
+                    <td>{$va.xh}</td>
+                    <td>{$va.name}</td>
+                    <td>{$va.departmentName1}</td>
+                    <td>{$va.departmentName2}</td>
+                    <td class="status"><?php 
+            switch ($va["acceptState"]) {
+                case 0:
+                    echo "审查中";
+                    break;
+                case -1:
+                    echo "被第一部门拒绝";
+                    break;
+                case -2:
+                    echo "彻底没戏";
+                    break;
+                default:
+                    echo $departments[$va["acceptState"]]["departmentName"].'录取';
+                    break;
+            } ?></td>
+                    <td>
+                        <a href='__URL__/detail/xh/{$va.xh}' target="_parent">
+                        <button type="button" class="btn  btn-primary btn-sm btn2-margin ">
+                            信息
+                        </button>
+                        </a>
+                        <?php if ($va["able"]) {?>
+                        <button type="button" class="btn btn-success btn-sm accept">
+                            录取
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm  btn2-margin refuse">
+                            拒绝
+                        </button>
+                        <?php } ?>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+    <p> 共计 {$count}个</p>
+    <p>每页显示
+        <input type="text" class="" id="num" placeholder="" style="max-width:40px" value="{$num}">
+        <button type="button" class="btn btn-primary btn-sm" id="changenum">确定</button>
+        <button type="button" class="btn btn-primary btn-sm" style="width:30px;" id="pagesubtract"> - </button>
+        <input type="text" class="" id="page" placeholder="" style="max-width:40px" value="{$page}"> /<span>{$allpage}</span>
+        <button type="button" class="btn btn-primary btn-sm" style="width:30px;" id="pageadd"> + </button>
+        <button type="button" class="btn btn-primary btn-sm" id="changepage">跳转</button>
+    </p>
+<script type="text/javascript">
+$(document).ready(function(){
+    var nowdepartment = '<?php echo $departments[$_SESSION["nowdepartment"]]["departmentName"]; ?>';
+    $(document).on("click",".accept",function(){
+        var that = $(this).parents("tr");
+        var id = that.attr("recruitid");
+        $.post('__URL__/apply',{"id":id},function(back){
+            if (back.status == 1) {
+                that.children(".status").text(nowdepartment+"录取");
+                that.find(".accept").remove();
+                that.find(".refuse").remove();
+            }else{
+                alert(back.info);
+            };
+        });
+    });
+    $(document).on("click",".refuse",function(){
+        var that = $(this).parents("tr");
+        var id = that.attr("recruitid");
+        $.post('__URL__/refuse',{"id":id},function(back){
+            if (back.status == 1) {
+                if (back.info == -1) {
+                    that.children(".status").text("被第一部门拒绝");
+                }else{
+                    that.children(".status").text("彻底没戏");
+                };
+                that.find(".accept").remove();
+                that.find(".refuse").remove();
+            }else{
+                alert(back.info);
+            };
+        });
+    });
+    $(document).on("click","#changenum",function(){
+        //修改每页显示个数
+        var url = geturl("num");
+        window.location.href = url;
+    });
+    $(document).on("click","#pageadd",function(){
+        var page = parseInt($("#page").val()) + 1;
+        $("#page").val(page);
+        var url = geturl("page");
+        window.location.href = url;
+    });
+    $(document).on("click","#pagesubtract",function(){
+        var page = parseInt($("#page").val()) - 1;
+        $("#page").val(page);
+        var url = geturl("page");
+        window.location.href = url;
+    });
+    $(document).on("click","#changepage",function(){
+        var url = geturl("page");
+        window.location.href = url;
+    });
+
+    function geturl(name){
+        var num = $("#"+name+"").val();
+        var url = window.document.location.href.toString();
+        var u = url.split("?");
+        url = "__URL__/recuritlist?";
+        if(typeof(u[1]) == "string"){
+            u = u[1].split("&");
+            for(var i in u){
+                if (u[i] && u[i].indexOf(name) == -1  && u[i].indexOf("page") == -1) {
+                    var j = u[i].split("=");
+                    url += j[0] + "=" + j[1] + "&";
+                };
+            }
+        }
+        url += name + "=" + num;
+        return url;
+    }
+});    
+
+</script>
+</body>
+</html>
+

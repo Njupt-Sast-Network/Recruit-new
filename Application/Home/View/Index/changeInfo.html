@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>南京邮电大学招新系统|修改信息</title>
+
+    <!-- Bootstrap -->
+    <link href="__ROOT__/Public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__ROOT__/Public/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- 导航栏 -->
+      <nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <span class="navbar-brand">个人中心</span>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav second-nav">
+        <li class="nav-contain"><a href="__URL__/changeDepartment" class="nav-link">申请报名</a></li>
+        <li class="nav-contain active"><a href="__URL__/changeInfo" class="nav-link">修改信息</a></li>
+        <li class="nav-contain"><a href="__URL__/changePassword" class="nav-link">修改密码</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" id="logout">注销</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+      <div class="container" id="main">
+      
+      <!--信息填写界面面板-->
+      <div class="tab-content">
+        <!-- 信息填写表单 -->
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">姓名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputName" placeholder="请输入姓名" value="<?php
+                        if($stuinfo["name"]) {
+                          echo($stuinfo["name"]);
+                        }
+                        ?>">
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="inputSex" class="col-sm-2 control-label">性别</label>
+                <!-- 性别这里写下拉框或者单选，数据库中0表示未选择，1表示男，2表示女 -->
+                <div class="col-sm-10">
+                    <select class="form-control" id="inputSex">
+                        <!-- <option value="0">==请选择==</option> -->
+                        <option value="1" 
+                        <?php
+                        if($stuinfo['sex'] == '1'){
+                          echo "selected = 'selected'";
+                        }
+                        ?>
+                        >男</option>
+                        <option value="2"
+                        <?php
+                        if($stuinfo['sex'] == '2'){
+                          echo "selected = 'selected'";
+                        }
+                        ?>
+                        >女</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputBirth" class="col-sm-2 control-label">生日</label>
+                <!-- 生日用3个下拉框来表示年月日 -->
+                    <div class="col-sm-4">
+                        <select class="form-control" id="inputYear">
+                        <!-- <option value="0">请选择</option> -->
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="inputMonth">
+                        <!-- <option value="0"></option> -->
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="inputDay">
+                        <!-- <option value="0"></option> -->
+                        </select>
+                    </div>
+                    
+            </div>
+            <div class="form-group">
+                <label for="inputQQ" class="col-sm-2 control-label">QQ</label>
+                    <div class="col-sm-10">
+                      <!-- 预填信息可以这么写，在value后面写原生php，下同 -->
+                        <input type="text" class="form-control" id="inputQQ" placeholder="请输入QQ号" value="<?php 
+                if ($stuinfo["qq"] != 0) {
+                  echo($stuinfo["qq"]);
+                }
+                 ?>">
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail" class="col-sm-2 control-label">邮箱</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputEmail" placeholder="请输入邮箱" value="<?php
+                        if($stuinfo["mail"] != '') {
+                          echo($stuinfo["mail"]);
+                        }
+                        ?>">
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="inputTel" class="col-sm-2 control-label">电话</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputTel" placeholder="请输入电话号码" value="<?php
+                        if($stuinfo["phone"] != 0) {
+                          echo($stuinfo["phone"]);
+                        }
+                        ?>">
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="inputDorm" class="col-sm-2 control-label">宿舍</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputDorm" placeholder="请输入宿舍地址" value="<?php
+                        if($stuinfo["dorm"] != '') {
+                          echo($stuinfo["dorm"]);
+                        }
+                        ?>">
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="inputCollege" class="col-sm-2 control-label">学院</label>
+                    <div class="col-sm-10"> 
+                        <select class="form-control" id="inputCollege">
+                            <option value="">==请选择==</option>
+                            <option value="通信与信息工程学院" 
+                            <?php
+                            if($stuinfo['college'] == '通信与信息工程学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >通信与信息工程学院</option>
+                            <option value="电子科学与工程学院" 
+                            <?php
+                            if($stuinfo['college'] == '电子科学与工程学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >电子科学与工程学院</option>
+                            <option value="光电工程学院" 
+                            <?php
+                            if($stuinfo['college'] == '光电工程学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >光电工程学院</option>
+                            <option value="计算机学院、软件学院" 
+                            <?php
+                            if($stuinfo['college'] == '计算机学院、软件学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >计算机学院、软件学院</option>
+                            <option value="自动化学院" 
+                            <?php
+                            if($stuinfo['college'] == '自动化学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >自动化学院</option>
+                            <option value="材料科学与工程学院" 
+                            <?php
+                            if($stuinfo['college'] == '材料科学与工程学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >材料科学与工程学院</option>
+                            <option value="物联网学院" 
+                            <?php
+                            if($stuinfo['college'] == '物联网学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >物联网学院</option>
+                            <option value="理学院" 
+                            <?php
+                            if($stuinfo['college'] == '理学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >理学院</option>
+                            <option value="地理与生物信息学院" 
+                            <?php
+                            if($stuinfo['college'] == '地理与生物信息学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >地理与生物信息学院</option>
+                            <option value="传媒与艺术学院（文化艺术中心）" 
+                            <?php
+                            if($stuinfo['college'] == '传媒与艺术学院（文化艺术中心）'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >传媒与艺术学院（文化艺术中心）</option>
+                            <option value="管理学院" 
+                            <?php
+                            if($stuinfo['college'] == '管理学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >管理学院</option>
+                            <option value="经济学院" 
+                            <?php
+                            if($stuinfo['college'] == '经济学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >经济学院</option>
+                            <option value="人文与社会科学学院" 
+                            <?php
+                            if($stuinfo['college'] == '人文与社会科学学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >人文与社会科学学院</option>
+                            <option value="外国语学院" 
+                            <?php
+                            if($stuinfo['college'] == '外国语学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >外国语学院</option>
+                            <option value="教育科学与技术学院" 
+                            <?php
+                            if($stuinfo['college'] == '教育科学与技术学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >教育科学与技术学院</option>
+                            <option value="贝尔英才学院" 
+                            <?php
+                            if($stuinfo['college'] == '贝尔英才学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >贝尔英才学院</option>
+                            <option value="海外教育学院" 
+                            <?php
+                            if($stuinfo['college'] == '海外教育学院'){
+                              echo "selected = 'selected'";
+                            }
+                            ?>
+                            >海外教育学院</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="inputMajor" class="col-sm-2 control-label">专业</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputMajor" placeholder="请输入专业名称" value="<?php
+                        if($stuinfo["major"] != '') {
+                          echo($stuinfo["major"]);
+                        }
+                        ?>">
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="inputGaozhong" class="col-sm-2 control-label">高中</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputGaozhong" placeholder="请输入高中名称" value="<?php
+                        if($stuinfo["gaozhong"] != '') {
+                          echo($stuinfo["gaozhong"]);
+                        }
+                        ?>">
+                    </div>
+            </div>
+            <!-- 这边还差了几个信息，学院、专业、高中名称 -->
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default" id="changeInfo">提交</button>
+                    <!-- 不要写type=submit，那样的意思是提交数据同时跳转至某页面，你用js处理的话根本写button或者不写都行 -->
+                </div>
+            </div>
+        </form>
+
+      </div>
+    </div> <!-- /container -->
+    </div>
+    <div class="footer">
+      <div class="container bottom">
+      <p class="test-muted">&copy; 校科协</p>
+    </div>
+    </div>
+    <script src="__ROOT__/Public/js/jquery-1.11.2.min.js"></script>
+    <script src="__ROOT__/Public/js/bootstrap.min.js"></script>
+    <!--<script src="../../../../public/js/ajax.js"></script>-->
+    <script>
+        $(document).ready(function(){
+          logOut();
+          var count = 0;
+          var makeDay = timeTable();
+          var preDay = preBirth();
+          $("#inputYear").change(makeDay);
+          $("#inputMonth").change(makeDay);
+          if(($("#inputYear").val() != "请选择") && $("#inputMonth").val()){
+            makeDay();
+            preDay();
+          }
+          check();
+          $("#changeInfo").click(function(){
+            var count = 0;
+            $(".form-control").each(function(){
+              if(!$(this).attr("checked")){
+                var placeholder = $(this).attr("placeholder");
+                if (placeholder) {
+                  alert(placeholder);
+                  count++;
+                  return false;
+                }else{
+                  alert("请完善您的个人信息");
+                  count++;
+                  return false;
+                };
+                return false;
+              }
+          });
+          if (!count) {
+            ajax();
+          };          
+        });
+        });
+        //预填生日
+        function preBirth() {
+          var birthday = "<?php echo $stuinfo['birthday'].""; ?>";
+          var data = [];
+          data = birthday.split("-");
+
+         $("#inputYear option[value=" + data[0] + "]").attr("selected","selected");
+         $("#inputMonth option[value=" + data[1] + "]").attr("selected","selected");
+         return function(){$("#inputDay option[value=" + data[2] + "]").attr("selected","selected");};
+
+        }
+        // 检查填没填全
+        function check() {
+          function regexList() {
+            this.inputName = /^[\u4e00-\u9fa5]{2,4}$/;
+            this.inputQQ = /^\d{5,10}$/;
+            this.inputEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            this.inputTel = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/;
+          }
+          var regexMatch = new regexList();
+          $(".form-control").each(function(){
+            if($(this).val()){
+              $(this).attr("checked","checked");
+            }
+            var id = $(this).attr("id");
+            $(this).blur(function(){
+              if(regexMatch[id]){
+                var reg = regexMatch[id];
+                if(!reg.test($(this).val())){
+                  $(this).removeAttr("checked");
+                  $(this).css({"border-color":"#8B0000","border-width":"2px"});
+                } else {
+                  $(this).attr("checked","checked");
+                  $(this).css({"border-color":"#66afe9","border-width":"2px"});
+                }
+              } else {
+                if(!$(this).val()){
+                  $(this).removeAttr("checked");
+                  $(this).css({"border-color":"#8B0000","border-width":"2px"});
+                } else {
+                  $(this).attr("checked","checked");
+                  $(this).css({"border-color":"#66afe9","border-width":"2px"});
+                }
+              }
+            });
+          });
+        }
+        //生成日历
+        function timeTable() {
+
+          var Year = "",Month = "",Day = "";
+          var Dlength = 0;
+
+          function makeYears(){
+            for(var Y = 1990;Y<2006;Y++){
+              Year += "<option value=" + Y + ">" + Y + "</option>";
+            }
+            $("#inputYear").append(Year);
+          }
+
+          function makeMonth(){
+            for(var M = 1;M<13;M++){
+              if(M<10){M = "0" + M}
+              Month += "<option value=" + M + ">" + M + "</option>"
+            }
+            $("#inputMonth").append(Month);
+          }
+          
+          makeYears();
+          makeMonth();
+
+          return function makeDay(){
+            Day = "";
+            var Y = $("#inputYear").val();
+            var M = $("#inputMonth").val();   
+            switch (M)
+            {
+              case '01':
+              case '03':
+              case '05':
+              case '07':
+              case '08':
+              case '10':
+              case '12':
+                Dlength = 31;
+                break;
+              case '04':
+              case '06':
+              case '09':
+              case '11':
+                Dlength = 30;
+                break;
+              case '02':
+                if(Y%4 == 0){
+                  Dlength = 29;
+                } else {
+                  Dlength = 28;
+                }
+                break;
+            }
+            for(var D = 1;D <= Dlength;D++){
+              if(D<10){D = "0" + D}
+              Day += "<option class='day' value=" + D +">" + D + "</option>"
+            }
+            $("#inputDay").html(Day);
+          }; 
+        }
+        //ajax提交
+        function ajax() {
+          var sex = $("#inputSex").val(),
+              qq = $("#inputQQ").val(),
+              mail = $("#inputEmail").val(),
+              phone = $("#inputTel").val(),
+              dorm = $("#inputDorm").val(),
+              college = $("#inputCollege").val(),
+              gaozhong = $("#inputGaozhong").val(),
+              major = $("#inputMajor").val(),
+              birthdayy = $("#inputYear").val(),
+              birthdaym = $("#inputMonth").val(),
+              birthdayd = $("#inputDay").val(),
+              name = $("#inputName").val();
+          console.log(sex);
+          $.ajax({
+            type : "POST",
+            data : {
+              "name" : name,
+              "sex" : sex,
+              "birthday-y" : birthdayy,
+              "birthday-m" : birthdaym,
+              "birthday-d" : birthdayd,
+              //生日这里分成三个，birthday-y、birthday-m、birthday-d，在doChangeInfo函数中有写
+              "qq" : qq,
+              //php是区分大小写的，后台QQ是小写的
+              "mail" : mail,
+              "phone" : phone,
+              "dorm" : dorm,
+              "gaozhong" : gaozhong,
+              "major" : major,
+              "college" : college
+            },
+            url : "{:U('Home/User/doChangeInfo')}",
+            dataType : "json",
+            success : function(back){
+              if(back.status == 1){
+                alert("更新成功");
+                location.reload();
+              } else {
+                alert(back.info);
+              }
+            },
+            error : function(){
+              alert("异常");
+            }
+          });
+        }
+        function logOut() {
+          $("#logout").click(function(){
+            console.log(1);
+            $.ajax({
+              type : "POST",
+              url : "{:U('Home/User/doLogout')}",
+              success : function(){
+                window.location.href = '{:U('Home/Index/login')}';
+              }
+            });
+          });
+        }
+    </script>
+  </body>
+</html>
